@@ -27,7 +27,7 @@ fds3.msg_seq = ProtoField.uint16("jt808.seq", "Msg Sequences", base.HEX, null)
 fds3.jt808_crc = ProtoField.uint8("jt808.crc", "CRC", base.HEX, null)
 
 
---------------------------------------------------------
+----------------------------table function----------------------------
 mytable = {}
 
 mytable[0x0001] = {name = "Terminal Common Response", callback = null}
@@ -127,6 +127,8 @@ function dissect_down_text_8300(buffer, offset, subtree)
         info = "Notify"
     elseif data == 0x02 then
         info = "Service"
+    else
+        info = "Unkown"
     end
     subtree:add(fds3.down_text_type, buffer(offset, len), info)
     offset = offset + len
@@ -151,30 +153,8 @@ mytable[0x8608] = {name = "Area/Route Search Request", callback=null}
 mytable[0x0608] = {name = "Area/Route Search Respone", callback=null}
 --------------------------------------------------------
 
---[[
-fds3.application_protocol = ProtoField.new("Application Protocol", "hep3.application_protocol", ftypes.STRING)
-fds3.source_ipv4_address = ProtoField.new("Source IPv4 address", "hep3.source_ipv4_address", ftypes.IPv4)
-fds3.destination_ipv4_address = ProtoField.new("Destination IPv4 address", "hep3.destination_ipv4_address", ftypes.IPv4)
-fds3.source_ipv6_address = ProtoField.new("Source IPv6 address", "hep3.source_ipv6_address", ftypes.IPv6)
-fds3.destination_ipv6_address = ProtoField.new("Destination IPv6 address", "hep3.destination_ipv6_address", ftypes.IPv6)
 
-fds3.group_id = ProtoField.new("Group ID", "hep3.group_id", ftypes.STRING)
-fds3.source_mac = ProtoField.new("Source MAC address", "hep3.source_mac", ftypes.STRING) -- .ETHER
-fds3.destination_mac = ProtoField.new("Destination MAC address", "hep3.destination_mac", ftypes.STRING) -- .ETHER
-fds3.ethernet_type = ProtoField.new("Ethernet Type", "hep3.ethernet_type", ftypes.UINT16)
-fds3.ip_TOS = ProtoField.new("IP TOS", "hep3.ip_TOS", ftypes.UINT8)
-fds3.tcp_flags = ProtoField.new("TCP Flags", "hep3.tcp_flags", ftypes.UINT8)
-fds3.source_port = ProtoField.new("Source port", "hep3.source_port", ftypes.UINT16)
-fds3.destination_port = ProtoField.new("Destination port", "hep3.destination_port", ftypes.UINT16)
-fds3.mos = ProtoField.new("MOS", "hep3.mos", ftypes.UINT16)
-fds3.timestamp_unix = ProtoField.new("Unix Timestamp", "hep3.timestamp_unix", ftypes.UINT32)
-fds3.timestamp_microsec = ProtoField.new("Timestamp µs", "hep3.timestamp_microsec", ftypes.UINT32)
-fds3.capture_node_id = ProtoField.new("Capture Node ID", "hep3.capture_node_id", ftypes.UINT32)
-fds3.auth_key = ProtoField.new("Authentication Key", "hep3.auth_key", ftypes.STRING)
-fds3.correlation_id = ProtoField.new("Correlation ID", "hep3.correlation_id", ftypes.STRING)
-fds3.payload = ProtoField.new("Encapsulated Payload", "hep3.payload", ftypes.STRING)
-fds3.vendor_id = ProtoField.new("Vendor ID", "hep3.vendor_id", ftypes.UINT16)
---]]
+
 
 -------------------------------parse function-------------------------------------------------
 
